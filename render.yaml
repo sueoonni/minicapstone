@@ -1,7 +1,16 @@
 services:
   - type: web
-    name: minicapstone
+    name: suyeoni-flask-db
     env: python
     buildCommand: ""
     startCommand: "python app.py"
+    plan: free
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: suyeoni-db
+          property: connectionString
+
+databases:
+  - name: suyeoni-db
     plan: free

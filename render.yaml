@@ -2,7 +2,7 @@ services:
   - type: web
     name: suyeoni-iot-control       # 서비스 이름 (원하는 이름으로 바꿔도 됨)
     env: python                     # 파이썬 환경
-    pythonVersion: 3.11.9
+    pythonVersion: 3.10.14
     plan: free                      # 무료 요금제
     buildCommand: "pip install -r requirements.txt"                # 별도 빌드 명령 없음
     startCommand: "python app.py"   # Flask 앱 실행 명령어

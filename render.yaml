@@ -10,9 +10,9 @@ services:
         value: postgresql://iotdb_33m4_user:foYuwODCSoK8uRWCqy0091PvBoJcahbs@dpg-d44tcmje5dus73fbul4g-a/iotdb_33m4
     rootDir: .
         fromDatabase:
-          name: suyeoni-db
+          name: iothub-db
           property: connectionString
 
 databases:
-  - name: suyeoni-db                # 데이터베이스 이름
+  - name: iothub-db              # 데이터베이스 이름
     plan: free                      # 무료 PostgreSQL

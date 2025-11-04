@@ -2,3 +2,4 @@ Flask==3.0.3
 Flask-SQLAlchemy==3.1.1
 SQLAlchemy==2.0.36
 psycopg[binary,pool]==3.2.12
+pip==25.1.1

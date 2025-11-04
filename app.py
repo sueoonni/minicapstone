@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify         #flask:서버본체, request:데이터읽기, jsonify:파이썬데이터를 변환해서 응답할때 사용 
 from database import db    #databases.py파일에서 db객체불러옴
+from datetime import datetime
 import os #주소전달할때 DATABASE_URL 변수 이용해야해서 필요한 헤더
 
 app = Flask(__name__)    #flask가 내부에서 어디서 실행됐는지 자체적으로 파악..

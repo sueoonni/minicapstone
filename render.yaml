@@ -1,12 +1,14 @@
 services:
   - type: web
-    name: suyeoni-iot-control       # 서비스 이름 (원하는 이름으로 바꿔도 됨)
+    name: iothub       # 서비스 이름 (원하는 이름으로 바꿔도 됨)
     env: python                     # 파이썬
     plan: free                      # 무료 요금제
     buildCommand: "pip install -r requirements.txt"                # 별도 빌드 명령 없음
     startCommand: "python app.py"   # Flask 앱 실행 명령어
     envVars:
-      - key: DATABASE_URL           # 환경변수(DB 주소)
+      - key: SQLALCHEMY_DATABASE_URI
+        value: postgresql://iotdb_33m4_user:foYuwODCSoK8uRWCqy0091PvBoJcahbs@dpg-d44tcmje5dus73fbul4g-a/iotdb_33m4
+    rootDir: .
         fromDatabase:
           name: suyeoni-db
           property: connectionString

@@ -24,7 +24,7 @@ with app.app_context():
 
 @app.route("/")
 def home(): #기본페이지
-    return "🚀 IoT Server is running!" 서버가 정상적으로 켜진 거 확인 메시지. Render에서 접속했을 때 이 문장 떠야함. 
+    return "🚀 IoT Server is running!" #서버가 정상적으로 켜진 거 확인 메시지
 
 
 # 🔘 앱 → ON/OFF 제어 명령 수신
@@ -57,4 +57,5 @@ def get_latest_control():
         return jsonify({"message": "No control commands yet."}), 404
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=10000)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)

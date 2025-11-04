@@ -5,7 +5,10 @@ import os #주소전달할때 DATABASE_URL 변수 이용해야해서 필요한 �
 app = Flask(__name__)    #flask가 내부에서 어디서 실행됐는지 자체적으로 파악..
 
 # Render가 db 주소를 flask에 연결하는 과정
-app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://iotdb_33m4_user:foYuwODCSoK8uRWCqy0091PvBoJcahbs@dpg-d44tcmje5dus73fbul4g-a.oregon-postgres.render.com/iotdb_33m4"
+db_url = os.environ.get("DATABASE_URL")
+if db_url and db_url.startswith("postgres://"):
+    db_url = db_url.replace("postgres://", "postgresql+psycopg://", 1)
+app.config["SQLALCHEMY_DATABASE_URI"] = db_url
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False 
 
 db.init_app(app)

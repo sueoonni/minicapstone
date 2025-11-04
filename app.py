@@ -9,7 +9,6 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://iotdb_33m4_user:foYuwODCSo
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False 
 
 db.init_app(app)
-db = SQLAlchemy(app)
 
 # 🔘 제어 신호 테이블 (앱에서 보낸 ON/OFF 상태 저장)
 class ControlCommand(db.Model):

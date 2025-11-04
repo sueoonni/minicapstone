@@ -4,7 +4,7 @@ services:
     env: python                     # 파이썬 환경
     pythonVersion: 3.11.9
     plan: free                      # 무료 요금제
-    buildCommand: ""                # 별도 빌드 명령 없음
+    buildCommand: "pip install -r requirements.txt"                # 별도 빌드 명령 없음
     startCommand: "python app.py"   # Flask 앱 실행 명령어
     envVars:
       - key: DATABASE_URL           # 환경변수(DB 주소)

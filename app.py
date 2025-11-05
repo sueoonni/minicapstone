@@ -36,7 +36,9 @@ def add_control_command():
     data = request.get_json()
     device = data.get("device")
     state = data.get("state")
-
+    
+    print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] Received Command: {device} set to {state}")
+    
     if not device or not state:
         return jsonify({"error": "Missing device or state"}), 400
 

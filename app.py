@@ -61,6 +61,25 @@ def get_latest_control():
     else:
         return jsonify({"message": "No control commands yet."}), 404
 
+
+
+
+
+
+
+
+# 임시 온습도데이터
+@app.route("/sensor", methods=["GET"])
+def get_sensor_data():
+    # 실제 ESP32 연결 전이므로 더미 데이터 리턴
+    dummy_data = {
+        "temperature": 24.3,
+        "humidity": 52.1
+    }
+    print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] Sent dummy sensor data: {dummy_data}")
+    return jsonify(dummy_data), 200
+
+
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))
     app.run(host="0.0.0.0", port=port, debug=False)

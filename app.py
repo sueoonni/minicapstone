@@ -75,6 +75,8 @@ def add_sensor_data():
     db.session.add(record)
     db.session.commit()
 
+    print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] 🌡️ Data received → Temp: {temp}°C / Humidity: {hum}%")
+    
     return jsonify({"message": "Sensor data stored!"}), 200
 
 

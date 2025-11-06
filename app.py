@@ -20,6 +20,13 @@ class ControlCommand(db.Model):
     device = db.Column(db.String(50), nullable=False)
     state = db.Column(db.String(10), nullable=False)
     time = db.Column(db.DateTime, default=datetime.utcnow)
+    
+# 온습도 데이터테이블
+class SensorData(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    temp = db.Column(db.Float, nullable=False)
+    hum = db.Column(db.Float, nullable=False)
+    time = db.Column(db.DateTime, default=datetime.utcnow)
 
 with app.app_context():
     db.create_all()      #flask가 만든 서버 내에서 DB만들수있게함. 
@@ -47,7 +54,36 @@ def add_control_command():
     db.session.commit()
 
     return jsonify({"message": f"{device} set to {state}"}), 200
+    
+# 🌡️ ESP32 → 온습도 데이터 수신
+@app.route("/add", methods=["POST"])
+def add_sensor_data():
+    data = request.get_json()
+    temp = data.get("temp")
+    hum = data.get("hum")
 
+    if temp is None or hum is None:
+        return jsonify({"error": "Missing temperature or humidity"}), 400
+
+    record = SensorData(temp=temp, hum=hum)
+    db.session.add(record)
+    db.session.commit()
+
+    return jsonify({"message": "Sensor data stored!"}), 200
+
+# 🌡️ 최신 온습도 데이터 조회
+@app.route("/latest", methods=["GET"])
+def get_latest_sensor_data():
+    record = SensorData.query.order_by(SensorData.id.desc()).first()
+    if record:
+        return jsonify({
+            "temp": record.temp,
+            "hum": record.hum,
+            "time": record.time.isoformat()
+        })
+    else:
+        return jsonify({"message": "No data yet."}), 404
+        
 # 🔘 최신 제어 상태 조회
 @app.route("/control/latest", methods=["GET"])
 def get_latest_control():
@@ -61,23 +97,18 @@ def get_latest_control():
     else:
         return jsonify({"message": "No control commands yet."}), 404
 
-
-
-
-
-
-
-
-# 임시 온습도데이터
-@app.route("/sensor", methods=["GET"])
-def get_sensor_data():
-    # 실제 ESP32 연결 전이므로 더미 데이터 리턴
-    dummy_data = {
-        "temperature": 24.3,
-        "humidity": 52.1
-    }
-    print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] Sent dummy sensor data: {dummy_data}")
-    return jsonify(dummy_data), 200
+# 🌡️ 최신 온습도 데이터 조회 
+@app.route("/latest", methods=["GET"]) 
+def get_latest_sensor_data(): 
+    record = SensorData.query.order_by(SensorData.id.desc()).first() 
+    if record: 
+        return jsonify({ 
+            "temp": record.temp, 
+            "hum": record.hum, 
+            "time": record.time.isoformat() 
+        }) 
+    else: 
+        return jsonify({"message": "No data yet."}), 404
 
 
 if __name__ == "__main__":
